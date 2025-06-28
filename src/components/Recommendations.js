@@ -8,7 +8,6 @@ import {
   Skeleton,
   Alert,
   AlertIcon,
-
   Heading,
 } from "@chakra-ui/react";
 
@@ -18,19 +17,28 @@ export default function Recommendations({ userId }) {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    console.log("Recommendations received userId:", userId);
     if (!userId) return;
+
     setLoading(true);
     setError("");
     setItems([]);
+
     getRecommendations(userId)
       .then((data) => {
         if (!Array.isArray(data) || data.length === 0) {
-          setError("No recommendations found for this user ID. Please enter a valid user ID.");
+          setError(
+            "No recommendations found for this user ID. Please enter a valid user ID."
+          );
         } else {
           setItems(data);
         }
       })
-      .catch(() => setError("❗ Failed to fetch recommendations. Please check the user ID and try again."))
+      .catch(() =>
+        setError(
+          "❗ Failed to fetch recommendations. Please check the user ID and try again."
+        )
+      )
       .finally(() => setLoading(false));
   }, [userId]);
 

@@ -1,10 +1,19 @@
-// src/api/personalize.js
 import axios from "axios";
 
 export async function getRecommendations(userId) {
-  const url = process.env.REACT_APP_PERSONALIZE_API; // e.g. https://xxx.execute-api.us-east-1.amazonaws.com/prod/recommend
-  const recommenderArn = process.env.REACT_APP_RECOMMENDER_ARN; // your ARN
+  const url = process.env.REACT_APP_PERSONALIZE_API;
+  const recommenderArn = process.env.REACT_APP_RECOMMENDER_ARN;
 
-  const response = await axios.post(url, { userId, recommenderArn });
-  return response.data; // array of { itemId, score, productName?, price? }
+  console.log("API URL:", url);
+  console.log("ARN:", recommenderArn);
+  console.log("UserID:", userId);
+
+  try {
+    const response = await axios.post(url, { userId, recommenderArn });
+    console.log("API response data:", response.data);
+    return response.data;
+  } catch (err) {
+    console.error("API error:", err.response?.data || err.message);
+    throw err;
+  }
 }
