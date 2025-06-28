@@ -1,57 +1,39 @@
 import React, { useState } from "react";
-import { ChakraProvider, Box, Heading, Input, Button, Flex } from "@chakra-ui/react";
 import Recommendations from "./components/Recommendations";
-import Paywall from "./components/Paywall";
+import PurchaseModal from "./components/PurchaseModal";
 
-function App() {
-  const [userIdInput, setUserIdInput] = useState("");
-  const [searchKey, setSearchKey] = useState("");
+export default function App() {
+  const [userId, setUserId] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [isPremium, setIsPremium] = useState(false);
 
   const handleSearch = () => {
-    setSearchKey(userIdInput.trim());
+    if (!isPremium) {
+      setShowModal(true);
+    }
+  };
+
+  const handlePurchase = () => {
+    setIsPremium(true);
+    setShowModal(false);
   };
 
   return (
-    <ChakraProvider>
-      <Box maxW="800px" mx="auto" mt={10} p={6}>
-        <Heading mb={6} color="purple.700">
-          Personalized{" "}
-          <span
-            style={{
-              borderLeft: "2px solid #6b46c1",
-              paddingLeft: "0.5rem",
-            }}
-          >
-            Product Recommendations
-          </span>
-        </Heading>
-        <Flex mb={8}>
-          <Input
-            placeholder="Enter user ID..."
-            value={userIdInput}
-            onChange={(e) => setUserIdInput(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") handleSearch();
-            }}
-            size="lg"
-            mr={2}
-            bg="white"
-            borderColor="purple.300"
-            focusBorderColor="purple.600"
-          />
-          <Button colorScheme="purple" onClick={handleSearch} size="lg" px={8}>
-            Search
-          </Button>
-        </Flex>
+    <div style={{ padding: "20px", maxWidth: "800px", margin: "auto", textAlign: "center" }}>
+      <h1>Personalized Product Recommendations</h1>
+      <input
+        type="text"
+        placeholder="Enter user ID..."
+        value={userId}
+        onChange={(e) => setUserId(e.target.value)}
+        style={{ padding: "10px", width: "70%", margin: "20px 0" }}
+      />
+      <button onClick={handleSearch} style={{ padding: "10px", backgroundColor: "#6b46c1", color: "#fff", border: "none", borderRadius: "5px" }}>
+        Search
+      </button>
 
-        {searchKey && (
-          <Paywall userId={searchKey}>
-            <Recommendations />
-          </Paywall>
-        )}
-      </Box>
-    </ChakraProvider>
+      {showModal && <PurchaseModal onClose={() => setShowModal(false)} onPurchase={handlePurchase} />}
+      {isPremium && <Recommendations userId={userId} />}
+    </div>
   );
 }
-
-export default App;

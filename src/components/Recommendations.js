@@ -1,91 +1,95 @@
 import React, { useEffect, useState } from "react";
 import { getRecommendations } from "../api/personalize";
-import {
-  SimpleGrid,
-  Box,
-  Text,
-  Badge,
-  Skeleton,
-  Alert,
-  AlertIcon,
-  Heading,
-} from "@chakra-ui/react";
+import axios from "axios";
 
 export default function Recommendations({ userId }) {
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [recommendations, setRecommendations] = useState([]);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [images, setImages] = useState({});
+
+  const fetchImages = async (productName) => {
+    const unsplashApiKey = process.env.REACT_APP_UNSPLASH_ACCESS_KEY;
+
+    try {
+      const response = await axios.get("https://api.unsplash.com/search/photos", {
+        params: {
+          query: productName,
+          client_id: unsplashApiKey,
+          per_page: 1,
+        },
+      });
+
+      return response.data.results[0]?.urls?.small || "https://via.placeholder.com/150?text=No+Image";
+    } catch (err) {
+      console.error("Failed to fetch image:", err);
+      return "https://via.placeholder.com/150?text=No+Image";
+    }
+  };
 
   useEffect(() => {
-    console.log("Recommendations received userId:", userId);
-    if (!userId) return;
+    const fetchRecommendationsWithImages = async () => {
+      setLoading(true);
+      setError("");
 
-    setLoading(true);
-    setError("");
-    setItems([]);
+      try {
+        const recommendedItems = await getRecommendations(userId);
 
-    getRecommendations(userId)
-      .then((data) => {
-        if (!Array.isArray(data) || data.length === 0) {
-          setError(
-            "No recommendations found for this user ID. Please enter a valid user ID."
-          );
-        } else {
-          setItems(data);
-        }
-      })
-      .catch(() =>
-        setError(
-          "❗ Failed to fetch recommendations. Please check the user ID and try again."
-        )
-      )
-      .finally(() => setLoading(false));
+        const imagePromises = recommendedItems.map(async (product) => {
+          const imageUrl = await fetchImages(product.productName);
+          return { ...product, image: imageUrl };
+        });
+
+        const updatedItems = await Promise.all(imagePromises);
+        setRecommendations(updatedItems);
+      } catch (err) {
+        setError(err.message || "Failed to fetch recommendations.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (userId) {
+      fetchRecommendationsWithImages();
+    }
   }, [userId]);
 
-  if (!userId) return null;
-
   if (loading) {
-    return (
-      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={6}>
-        {[...Array(4)].map((_, i) => (
-          <Skeleton key={i} height="120px" borderRadius="md" />
-        ))}
-      </SimpleGrid>
-    );
+    return <div>Loading recommendations...</div>;
   }
 
   if (error) {
-    return (
-      <Alert status="error" borderRadius="md">
-        <AlertIcon />
-        {error}
-      </Alert>
-    );
+    return <div style={{ color: "red" }}>{error}</div>;
+  }
+
+  if (!recommendations.length) {
+    return <div>No recommendations available for this user ID.</div>;
   }
 
   return (
-    <SimpleGrid columns={{ base: 1, md: 2 }} spacing={6}>
-      {items.map((item) => (
-        <Box
-          key={item.itemId}
-          bg="white"
-          borderRadius="md"
-          boxShadow="md"
-          p={5}
-          _hover={{ boxShadow: "xl", transform: "scale(1.03)" }}
-          transition="all 0.2s"
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "16px", marginTop: "20px" }}>
+      {recommendations.map((product) => (
+        <div
+          key={product.itemId}
+          style={{
+            border: "1px solid #ddd",
+            borderRadius: "8px",
+            padding: "16px",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+            textAlign: "center",
+          }}
         >
-          <Heading as="h3" size="md" mb={1} color="purple.700">
-            {item.productName || item.name || "Unknown Product"}
-          </Heading>
-          <Text color="gray.600">
-            Price: <b>{item.price ? `₹${item.price}` : "N/A"}</b>
-          </Text>
-          <Badge colorScheme="purple" mt={2} fontSize="1em">
-            Score: {item.score?.toFixed(4)}
-          </Badge>
-        </Box>
+          <img
+            src={product.image}
+            alt={product.productName}
+            style={{ width: "100%", height: "150px", objectFit: "cover", borderRadius: "8px" }}
+          />
+          <h3 style={{ margin: "10px 0" }}>{product.productName}</h3>
+          <p style={{ fontWeight: "bold" }}>${Number(product.price).toFixed(2)}</p>
+          <p style={{ fontStyle: "italic", color: "#555" }}>Score: {product.score || "N/A"}</p>
+          <p style={{ color: "#888", fontSize: "12px" }}>ID: {product.itemId}</p>
+        </div>
       ))}
-    </SimpleGrid>
+    </div>
   );
 }
