@@ -1,4 +1,3 @@
-// src/App.js
 import React, { useState } from "react";
 import { ChakraProvider, Box, Heading, Input, Button, Flex } from "@chakra-ui/react";
 import Recommendations from "./components/Recommendations";
@@ -47,7 +46,6 @@ function App() {
 
         {searchKey && (
           <Paywall userId={searchKey}>
-            {/* child is Recommendations but Paywall will inject the numeric ID */}
             <Recommendations />
           </Paywall>
         )}

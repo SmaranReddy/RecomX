@@ -1,29 +1,16 @@
-// src/components/Paywall.js
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 const PREFIX = "test_user_";
 
 export default function Paywall({ userId, children }) {
-  const [isPremium, setIsPremium] = useState(false);
-  const [recUserId, setRecUserId] = useState(null);
-
-  useEffect(() => {
-    if (userId.startsWith(PREFIX)) {
-      // Extract the numeric part after "test_user_"
-      const idPart = userId.slice(PREFIX.length);
-      setRecUserId(idPart);
-      setIsPremium(true);
-    } else {
-      setRecUserId(null);
-      setIsPremium(false);
-    }
-  }, [userId]);
+  const isPremium = userId.startsWith(PREFIX);
 
   if (isPremium) {
-    // Pass the numeric ID down to children:
-    return React.cloneElement(children, { userId: recUserId });
+    // Pass the full userId down
+    return React.cloneElement(children, { userId });
   }
 
+  // Free‑tier UI
   return (
     <div
       style={{
@@ -34,10 +21,13 @@ export default function Paywall({ userId, children }) {
         background: "#faf5ff",
       }}
     >
-      <h2 style={{ color: "#6b46c1", marginBottom: "1rem" }}>Upgrade to Premium</h2>
+      <h2 style={{ color: "#6b46c1", marginBottom: "1rem" }}>
+        Upgrade to Premium
+      </h2>
       <p>Limited access for free users.</p>
       <p>
-        To unlock all recommendations, search as <code>{PREFIX}&lt;your_user_id&gt;</code>
+        To unlock all recommendations, search as{" "}
+        <code>{PREFIX}&lt;your_user_id&gt;</code>
       </p>
     </div>
   );
