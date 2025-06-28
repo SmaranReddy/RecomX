@@ -1,70 +1,152 @@
-# Getting Started with Create React App
+# RecomX
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**AI-powered Product Recommendation Engine**  
+Personalization · Premium Billing · Serverless Backend
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+RecomX is an intelligent, scalable product recommendation engine designed for e-commerce and SaaS platforms. Leveraging AWS Personalize, RecomX delivers advanced AI-driven personalization with seamless premium billing and a modern serverless backend. Built primarily with JavaScript, RecomX is optimized for easy integration, high performance, and rapid deployment.
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **AWS Personalize Integration:**  
+  Utilizes AWS Personalize for real-time, machine learning-powered product recommendations.
 
-### `npm test`
+- **Dynamic User Personalization:**  
+  Adapts to user behavior, preferences, and purchase history to deliver tailored suggestions.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Premium Billing Support:**  
+  Integrated subscription billing for premium features (Stripe/PayPal supported).
 
-### `npm run build`
+- **Serverless Architecture:**  
+  Deploys on AWS Lambda or compatible serverless platforms for scalability and cost efficiency.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Easy Integration:**  
+  Exposes RESTful APIs and provides a JavaScript SDK for seamless integration with your frontend.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Analytics Dashboard:**  
+  Track recommendation performance, user engagement, and revenue insights.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **Secure & Privacy-first:**  
+  Follows best practices for data privacy and security (GDPR-ready).
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Tech Stack
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **Recommendation Engine:** AWS Personalize
+- **Frontend:** JavaScript, HTML, CSS
+- **Backend:** Node.js (Serverless Functions)
+- **Billing:** Stripe/PayPal SDK
+- **Database:** Cloud-native (e.g., DynamoDB, Firestore, MongoDB Atlas)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Getting Started
 
-## Learn More
+### 1. Clone the Repository
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+git clone https://github.com/KUNALSHAWW/RecomX.git
+cd RecomX
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 2. Install Dependencies
 
-### Code Splitting
+```bash
+npm install
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### 3. Configure Environment
 
-### Analyzing the Bundle Size
+Create a `.env` file in the root directory with the following (example) variables:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```env
+AWS_ACCESS_KEY_ID=your_aws_access_key
+AWS_SECRET_ACCESS_KEY=your_aws_secret_key
+AWS_REGION=your_aws_region
+PERSONALIZE_CAMPAIGN_ARN=your_aws_personalize_campaign_arn
+DATABASE_URL=your_database_url
+STRIPE_SECRET_KEY=your_stripe_key
+# ...other secrets as required
+```
 
-### Making a Progressive Web App
+### 4. Run Locally
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```bash
+npm run dev
+```
 
-### Advanced Configuration
+### 5. Deploy
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+RecomX is designed for serverless deployment:
+- **AWS Lambda:**  
+  See [AWS Lambda Docs](https://docs.aws.amazon.com/lambda/latest/dg/getting-started.html)
+- **Vercel / Netlify:**  
+  Use built-in serverless function support for easy deployment
 
-### Deployment
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Usage
 
-### `npm run build` fails to minify
+### REST API
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- **Get Recommendations:**  
+  `GET /api/recommend?userId=USER_ID`  
+  (Fetches recommendations for the specified user from AWS Personalize)
+
+- **Add/Update User:**  
+  `POST /api/user`  
+  Payload: `{ "userId": "...", "preferences": {...} }`
+
+- **Billing Webhooks:**  
+  `/api/billing/webhook` (Stripe/PayPal integration)
+
+### JavaScript SDK Example
+
+```javascript
+import { getRecommendations } from 'recomx-sdk';
+
+getRecommendations(userId)
+  .then(recommendations => {
+    // render recommendations to user
+  });
+```
+
+---
+
+## Folder Structure
+
+```
+/api              # Serverless functions (Node.js)
+/sdk              # JavaScript SDK
+/public           # Static assets
+/components       # UI components
+/utils            # Helper functions
+README.md
+.env.example
+```
+
+---
+
+## Contributing
+
+1. Fork this repo
+2. Create your feature branch (`git checkout -b feat/amazing-feature`)
+3. Commit your changes (`git commit -am 'feat: add amazing feature'`)
+4. Push to the branch (`git push origin feat/amazing-feature`)
+5. Open a Pull Request
+
+---
+
+## License
+
+[MIT](LICENSE)
+
+---
+
+## Contact
+
+For support or business inquiries, contact [KUNALSHAWW](https://github.com/KUNALSHAWW).
