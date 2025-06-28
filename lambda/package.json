@@ -1,0 +1,8 @@
+{
+  "name": "personalize-lambda",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "@aws-sdk/client-personalize-runtime": "^3.574.0"
+  }
+}

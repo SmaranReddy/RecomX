@@ -1,0 +1,36 @@
+body, .App {
+  background: #f8f8fa;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+}
+
+h1 {
+  color: #22223b;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.product-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-width: 600px;
+  margin: 1.5rem auto;
+}
+.product-row {
+  background: #fff;
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  margin: 0.7rem 0;
+  box-shadow: 0 2px 8px #0001;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+.product-row strong {
+  font-size: 1.1rem;
+  color: #22223b;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}             
