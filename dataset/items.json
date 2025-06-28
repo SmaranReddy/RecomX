@@ -1,0 +1,36 @@
+{
+	"type": "record",
+	"name": "Items",
+	"namespace": "com.amazonaws.personalize.schema",
+	"fields": [
+		{
+			"name": "ITEM_ID",
+			"type": "string"
+		},
+		{
+			"name": "PRICE",
+			"type": "float"
+		},
+		{
+			"name": "CATEGORY_L1",
+			"type": "string",
+			"categorical": true
+		},
+		{
+			"name": "CATEGORY_L2",
+			"type": "string",
+			"categorical": true
+		},
+		{
+			"name": "PRODUCT_DESCRIPTION",
+			"type": "string",
+			"textual": true
+		},
+		{
+			"name": "GENDER",
+			"type": "string",
+			"categorical": true
+		}
+	],
+	"version": "1.0"
+}
