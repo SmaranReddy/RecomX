@@ -492,32 +492,8 @@ Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more informa
 
 **Smaran Reddy**
 
-<p>
-  <a href="https://github.com/smaranreddy">GitHub</a> ·
-  <a href="https://linkedin.com/in/smaranreddy">LinkedIn</a>
-</p>
+
 
 ---
 
-<details>
-<summary><b>📌 GitHub Repo Subtitle</b></summary>
-Real-time AI-powered product recommendation engine using AWS Personalize, serverless Lambda, and React — built for scalable e-commerce personalization.
-</details>
 
-<details>
-<summary><b>📌 Resume Bullet Points</b></summary>
-
-1. Built a full-stack AI recommendation engine (RecomX) using AWS Personalize, Lambda, and React, reducing manual product discovery friction through ML-driven personalized suggestions.
-2. Designed and deployed a serverless architecture with dual AWS Lambda functions, API Gateway, and S3 integration, achieving sub-100ms real-time inference at scale.
-3. Processed and transformed structured datasets (users, items, interactions) into AWS Personalize-compatible schemas, enabling automated HRNN model training and cold-start handling.
-4. Implemented a dynamic product enrichment pipeline that maps raw recommendation IDs to rich metadata (name, price, category, image) via serverless functions and the Unsplash API.
-5. Developed a React + Chakra UI frontend with a premium paywall gating mechanism, demonstrating full-stack product thinking and SaaS monetization patterns.
-</details>
-
-<details>
-<summary><b>📌 Google XYZ Impact Points</b></summary>
-
-1. Engineered a serverless ML recommendation pipeline using AWS Personalize and Lambda that processes up to 6 personalized recommendations per request with sub-100ms latency, enabling real-time e-commerce personalization at any scale.
-2. Transformed and structured 70+ products across 18 categories into a standardized training dataset, reducing cold-start friction for new users and items by leveraging HRNN and content-based filtering models.
-3. Built a React + Chakra UI frontend with a premium paywall simulation pattern, demonstrating the ability to ship production-ready, monetizable AI features that balance user experience with business requirements.
-</details>
